@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surprise!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* This will handle the button moving around when hovered */
+        .tricky-btn {
+            position: relative;
+            transition: all 0.2s ease;
+        }
+        .tricky-btn:hover {
+            transform: translateX(100px) translateY(-20px); /* Move it horizontally and slightly up */
+        }
+    </style>
+</head>
+<body class="bg-pink-100 flex justify-center items-center h-screen">
+
+    <!-- Page 1 -->
+    <div id="page1" class="container text-center p-8 bg-white rounded-lg shadow-lg max-w-md">
+        <h1 class="text-2xl font-bold text-pink-600 mb-4">A Little Surprise for You</h1>
+        <button onclick="nextPage('page2')" class="bg-pink-500 text-white px-4 py-2 rounded-lg hover:bg-pink-600">Click to find out more...</button>
+    </div>
+
+    <!-- Page 2 -->
+    <div id="page2" class="container text-center p-8 bg-white rounded-lg shadow-lg max-w-md hidden">
+        <h1 class="text-2xl font-bold text-pink-600 mb-4">Some Thoughts I Wanted to Share...</h1>
+        <p class="mb-4">I’ve enjoyed every moment we’ve spent together...<br>And I’ve been wondering...<br>Could it be possible that we could be something more?</p>
+        <button onclick="nextPage('page3')" class="bg-pink-500 text-white px-4 py-2 rounded-lg hover:bg-pink-600">Keep Going...</button>
+    </div>
+
+    <!-- Page 3 -->
+    <div id="page3" class="container text-center p-8 bg-white rounded-lg shadow-lg max-w-md hidden">
+        <h1 class="text-2xl font-bold text-pink-600 mb-4">The Question I Can’t Get Off My Mind</h1>
+        <p class="mb-4">Would you like to hangout with me?</p>
+        <div class="flex justify-around">
+            <button onclick="nextPage('yesPage')" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">Yes!</button>
+            <button id="noButton" class="bg-blue-500 text-white px-4 py-2 rounded-lg tricky-btn">NAHHHHHH</button>
+        </div>
+    </div>
+
+    <!-- Yes Page -->
+    <div id="yesPage" class="container text-center p-8 bg-white rounded-lg shadow-lg max-w-md hidden">
+        <h1 class="text-2xl font-bold text-green-600 mb-4">Yay! Can’t Wait!</h1>
+        <p>I’m so excited! HOORAYY!<br>Message me when you're ready 💌</p>
+    </div>
+
+    <!-- Script for page transitions and button trick -->
+    <script>
+        function nextPage(pageId) {
+            const pages = document.querySelectorAll('.container');
+            pages.forEach(page => page.classList.add('hidden'));
+            document.getElementById(pageId).classList.remove('hidden');
+        }
+
+        // Make the "Let's Talk" button move on hover (for desktop) or tap (for mobile)
+        const noButton = document.getElementById('noButton');
+
+        // Function to make the button move to a random position
+        function moveButton() {
+            const randomX = Math.floor(Math.random() * 200) - 100; // Random number between -100 and 100
+            const randomY = Math.floor(Math.random() * 200) - 100; // Random number between -100 and 100
+            noButton.style.transform = `translate(${randomX}px, ${randomY}px)`;
+        }
+
+        // Check if the device is mobile or desktop
+        function isMobileDevice() {
+            return /Mobi|Android/i.test(navigator.userAgent);
+        }
+
+        if (isMobileDevice()) {
+            // For mobile: Move the button on touch
+            noButton.addEventListener('touchstart', function() {
+                moveButton();
+            });
+        } else {
+            // For desktop: Button moves on hover (defined by CSS)
+            noButton.addEventListener('mouseover', function() {
+                moveButton();
+            });
+        }
+    </script>
+
+</body>
+</html>
